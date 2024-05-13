@@ -22,5 +22,14 @@ modalShow.addEventListener('click', showModal)
 modalClose.addEventListener('click', closeModal)
 // Close MOdal by clicking outside
 window.addEventListener('click', (e) => {
-    console.log(e.target);
+    e.target === modal ? modal.classList.remove('show-modal') : false
 })
+
+// Store Bookamrk Function
+function storeBookmark(e){
+    e.preventDefault()
+    console.log(e, 'Form has been submitted');
+}
+
+// Event Listener
+bookmarkForm.addEventListener('submit', storeBookmark)
