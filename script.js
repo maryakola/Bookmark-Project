@@ -51,7 +51,10 @@ function storeBookmark(e){
     }
 
     console.log(nameValue, urlValue);
-    validate(nameValue, urlValue)
+    if(!validate(nameValue, urlValue)){
+        return false;
+    }
+    
 }
 
 // Event Listener
