@@ -107,24 +107,6 @@ function deleteBookmark(url){
     fetchBookmarks()
 }
 
-// Fetch Bookmarks
-function fetchBookmarks(){
-    // Get bookmark from local storage if available
-    if(localStorage.getItem('bookmarks')){
-        bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
-    } else {
-    // Create a bookmarks array in local storage
-    bookmarks = [
-        {
-            name: 'Tiktok',
-            url: 'https://titktok.com',
-        },
-    ];
-    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-    }
-    console.log(bookmarks);
-}
-
 // Store Bookamark Function
 function storeBookmark(e){
     e.preventDefault()
@@ -133,13 +115,23 @@ function storeBookmark(e){
     if(!urlValue.includes('https://') && !urlValue.includes('http://')) {
         urlValue = `https://${urlValue}`
     }
-
-    console.log(nameValue, urlValue);
     if(!validate(nameValue, urlValue)){
         return false;
     }
+    // Set bookmark object, add to array
+    const bookmark = {
+        name: nameValue,
+        url: urlValue,
+    };
+    bookmarks.push(bookmark);
+    // Set bookmarks in localStorage, fetch, reset input fields
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    fetchBookmarks();
+    bookmarkForm.reset();
+    websiteNameEl.focus();
     
 }
 
 // Event Listener
 bookmarkForm.addEventListener('submit', storeBookmark)
+fetchBookmarks()
