@@ -57,7 +57,7 @@ function buildBookmarks(){
         const closeIcon = document.createElement('i')
         closeIcon.classList.add('fas', 'fa-times')
         closeIcon.setAttribute('title', 'Delete bookmark')
-        closeIcon.setAttribute('onclick', `deleteBookmark('${url})`)
+        closeIcon.setAttribute('onclick', `deleteBookmark('${url}')`)
         // Favicon / Link Container
         const linkInfo = document.createElement('div')
         linkInfo.classList.add('name')
