@@ -6,6 +6,8 @@ const websiteNameEl = document.getElementById('website-name')
 const websiteUrlEl = document.getElementById('website-url')
 const bookmarksContainer = document.getElementById('bookmarks-container')
 
+let bookmarks = []
+
 // Show Modal, Focus on input
 function showModal(){
     modal.classList.add('show-modal')
@@ -41,7 +43,25 @@ function validate(nameValue, urlValue){
     return true;
 }
 
-// Store Bookamrk Function
+// Fetch Bookmarks
+function fetchBookmarks(){
+    // Get bookmark from local storage if available
+    if(localStorage.getItem('bookmarks')){
+        bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+    } else {
+    // Create a bookmarks array in local storage
+    bookmarks = [
+        {
+            name: 'Tiktok',
+            url: 'https://titktok.com',
+        },
+    ];
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+    }
+    console.log(bookmarks);
+}
+
+// Store Bookamark Function
 function storeBookmark(e){
     e.preventDefault()
     const nameValue = websiteNameEl.value
@@ -49,13 +69,22 @@ function storeBookmark(e){
     if(!urlValue.includes('https://') && !urlValue.includes('http://')) {
         urlValue = `https://${urlValue}`
     }
-
-    console.log(nameValue, urlValue);
     if(!validate(nameValue, urlValue)){
         return false;
     }
-    
+    const bookmark = {
+        name: nameValue,
+        url: urlValue,
+    };
+    bookmarks.push(bookmark)
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
+    fetchBookmarks()
+    bookmarkForm.reset();
+    websiteNameEl.focus()
 }
 
 // Event Listener
 bookmarkForm.addEventListener('submit', storeBookmark)
+
+// Fetch bookmarks on load
+fetchBookmarks()
